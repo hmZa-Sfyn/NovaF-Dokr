@@ -27,6 +27,11 @@ namespace nova.Utils
                 return 3;
             }
 
+            if (thing.Contains("::") || thing.Contains(":>>"))
+            {
+                return -1;
+            }
+
             if (thing.StartsWith("("))
             {
                 return 1;
@@ -96,14 +101,14 @@ namespace nova.Utils
             switch (type)
             {
                 case 0:
-                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.ForegroundColor = ConsoleColor.Green;
                     break;
                 case 1:
                     Console.ForegroundColor = ConsoleColor.Red;
                     thing = InputUtils.FurtherProcessThisPlease(thing);
                     break;
                 case 3:
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
                     break;
                 default:
                     Console.ForegroundColor = ConsoleColor.White;
@@ -127,12 +132,12 @@ $$ | \$$ |\$$$$$$  |  \$  /  \$$$$$$$ |$$ |
 \__|  \__| \______/    \_/    \_______|\__|
 
 ╔═══════════════════════════════╗ ╔═════════════════════════════════════════════════════════════════════════╗
-║ v-0.0.1 Beta-Prerelease       ║ ║ Website: https://yuri-is-on-rage-mode.github.io/ref/hmza/nas/index.html ║ 
-║ Author: hmZa                  ║ ║ Github: https://github.com/Yuri-Is-On-Rage-Mode                         ║
+║ v-1.4.2 Beta                  ║ ║ Website: https://hmza-sfyn.github.io/ref/hmza/nas/index.html            ║ 
+║ Author: hmZa-Sfyn             ║ ║ Github: https://github.com/hmZa-Sfyn                                    ║
 ╚═══════════════════════════════╝ ╚═════════════════════════════════════════════════════════════════════════╝                                                                                  
                                    
 ╔════════════════════════════════════════╗ [!] This software is provided ""as is"" without warranty of any kind, either express or implied,
-║ Legal Notice                           ║ including but not limited to the warranties of merchantability, fitness for a particular purpose,
+║ Legal Notice!                          ║ including but not limited to the warranties of merchantability, fitness for a particular purpose,
 ║                                        ║ or non-infringement. hmZa and Novaf Corp do not warrant that the software will meet your requirements
 ║ Acceptance of Terms:                   ║ or that its operation will be uninterrupted or error-free.
 ║ By using this software, you agree to   ║
@@ -144,7 +149,7 @@ $$ | \$$ |\$$$$$$  |  \$  /  \$$$$$$$ |$$ |
 ║ License Grant:                         ║ Any disputes arising from this legal notice shall be subject to the exclusive jurisdiction of the courts
 ║ This software is licensed to you, not  ║ located in your government.
 ║ sold. You are granted a limited,       ║
-║ non-exclusive, non-transferable license║ 
+║ non-exclusive, non-transferable license║ [*] Have fun! 
 ║ to use this software in accordance with║ 
 ║ the terms of this legal notice.        ║ 
 ╚════════════════════════════════════════╝

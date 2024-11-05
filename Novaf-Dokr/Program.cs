@@ -10,6 +10,8 @@ using nova.Utils;
 using nova.Command;
 using nova.Command.env;
 using System.Runtime.ExceptionServices;
+using System.Reflection.Metadata.Ecma335;
+using Novaf_Dokr.Customization.configuration;
 //using nova.Tests;
 
 namespace novaf
@@ -21,10 +23,10 @@ namespace novaf
             //Console.WriteLine("(c) nova Initial Developers | Fri3nds .G");
             DesignFormat.Banner();
 
-            Initnova();
+            Initnova(false);
         }
 
-        public static void Initnova()
+        public static void Initnova(bool isctrlc)
         {
             #region UnitTests
             //UnitTests.Test1();
@@ -85,26 +87,41 @@ namespace novaf
 
             #region Actual Init
 
+
+            
+
             try
             {
                 while (true)
                 {
+                    _entry_point_main:
                     try
                     {
-                        // The rest of your code
-                        DesignFormat.TakeInput([$"\n{CommandEnv.CURRENT_USER_NAME}", "@", "novaf", ": ", $"{CommandEnv.CurrentDirDest}", $" ({CommandEnv.CURRENT_NODE_NAME})", " $ "]);
-                        List<string> commands = UserInput.Prepare(UserInput.Input());
-                        IdentifyCommand.Identify(commands);
-                        List<string> parsed_commands = IdentifyCommand.ReturnThemPlease();
-                        PleaseCommandEnv.TheseCommands(parsed_commands);
-                        IdentifyCommand.CacheClean();
-
                         // Handle CTRL+C key press to prevent quitting
                         Console.CancelKeyPress += (sender, e) =>
                         {
-                            e.Cancel = true; // Prevent the app from closing
+                            e.Cancel = false; // Prevent the app from closing
                             Console.WriteLine("\nTolerating CTRL+C!");
+                            Initnova(true);
                         };
+
+                        if (!isctrlc)
+                        {
+                            // The rest of your code
+                            DesignFormat.TakeInput([$"{CommandEnv.CURRENT_USER_NAME}", "@", "kernal", "::", $"{CommandEnv.CurrentDirDest}", " $ "]);
+                            List<string> commands = UserInput.Prepare(UserInput.Input());
+                            IdentifyCommand.Identify(commands);
+                            List<string> parsed_commands = IdentifyCommand.ReturnThemPlease();
+                            PleaseCommandEnv.TheseCommands(parsed_commands);
+                            IdentifyCommand.CacheClean();
+                        }
+                        else
+                        { 
+                            isctrlc = false;
+                        }
+
+                        continue;
+
                     }
                     catch (Exception exp) // Exception handling block
                     {

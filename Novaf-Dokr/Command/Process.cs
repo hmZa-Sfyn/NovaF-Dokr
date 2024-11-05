@@ -24,13 +24,18 @@ namespace nova.Command
 
         public static string UserHomeDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         public static string novaEnvDir = Path.Combine(UserHomeDir, "vin_env", "vars");
+
         public static string EnvVarsFile = Path.Combine(novaEnvDir, "env_vars.json");
+        public static string EnvPointersFile = Path.Combine(novaEnvDir, "env_pointers.json");
         public static string AliasesFile = Path.Combine(novaEnvDir, "aliases.json");
 
         public static List<string> DecoraterCommands = new List<string>();
         public static List<string> AlertCommands = new List<string>();
+
         public static Dictionary<string, string> EnvironmentVariables = new Dictionary<string, string>();
+        public static Dictionary<string, string> EnvironmentPointers = new Dictionary<string, string>();
         public static Dictionary<string, string> Aliases = new Dictionary<string, string>();
+
         public static List<string> CommandHistory = new List<string>();
 
         static CommandEnv()
@@ -54,14 +59,20 @@ namespace nova.Command
 
                 if (!File.Exists(EnvVarsFile))
                 {
-                    errs.New("Error: env_vars.json file not found. Creating file.");
+                    errs.New("Error: `/vars/env_vars.json` file not found. Creating file.");
                     File.WriteAllText(EnvVarsFile, "{}");
                 }
 
                 if (!File.Exists(AliasesFile))
                 {
-                    errs.New("Error: aliases.json file not found. Creating file.");
+                    errs.New("Error: `/vars/aliases.json` file not found. Creating file.");
                     File.WriteAllText(AliasesFile, "{}");
+                }
+
+                if (!File.Exists(EnvPointersFile))
+                {
+                    errs.New("Error: `/vars/env_pointers.json` file not found. Creating file.");
+                    File.WriteAllText(EnvPointersFile, "{}");
                 }
 
                 errs.ListThem();
@@ -91,6 +102,27 @@ namespace nova.Command
             catch (Exception ex)
             {
                 errs.New($"Error loading environment variables: {ex.Message}");
+                errs.ListThem();
+                errs.CacheClean();
+            }
+        }
+        public static void SaveEnvironmentPointers()
+        {
+            File.WriteAllText(EnvPointersFile, JsonSerializer.Serialize(EnvironmentVariables, new JsonSerializerOptions { WriteIndented = true }));
+        }
+        public static void LoadEnvironmentPointers()
+        {
+            try
+            {
+                if (File.Exists(EnvPointersFile))
+                {
+                    string json = File.ReadAllText(EnvPointersFile);
+                    EnvironmentVariables = JsonSerializer.Deserialize<Dictionary<string, string>>(json) ?? new Dictionary<string, string>();
+                }
+            }
+            catch (Exception ex)
+            {
+                errs.New($"Error loading environment pointers: {ex.Message}");
                 errs.ListThem();
                 errs.CacheClean();
             }
@@ -363,6 +395,14 @@ namespace nova.Command
             {
                 string key = match.Groups[1].Success ? match.Groups[1].Value : match.Groups[2].Value;
                 return EnvironmentVariables.TryGetValue(key, out string value) ? value : match.Value;
+            });
+        }
+        public static string ReplaceEnvironmentPointers(string input)
+        {
+            return Regex.Replace(input, @":(\w+)", match =>
+            {
+                string key = match.Groups[1].Value;
+                return EnvironmentPointers.TryGetValue(key, out string value) ? value : match.Value;
             });
         }
         public static void CommandEnvEach(List<string> commands)

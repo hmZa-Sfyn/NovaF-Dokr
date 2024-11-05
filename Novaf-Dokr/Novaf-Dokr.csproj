@@ -19,4 +19,9 @@
     <PackageReference Include="RestSharp" Version="112.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Customization\plugins\" />
+    <Folder Include="Customization\themes\" />
+  </ItemGroup>
+
 </Project>

@@ -22,7 +22,16 @@ namespace nova.Command
         {
             try
             {
-                List<string> result = input.Split(" ").ToList();
+                List<string> result = [];
+                if (input != null && input != string.Empty)
+                {
+                    result = input.Split(" ").ToList();
+                }
+                else 
+                {
+                    result = [];
+                }
+                
                 return result;
             }
             catch (Exception)
