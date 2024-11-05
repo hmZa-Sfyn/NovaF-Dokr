@@ -20,6 +20,13 @@
 
 <img src="./image.png"></img>
 
+## Version 1.4.2 (5/11/2024) Uploaded On (5~8/10/2024)
+
+- Added custom themes.
+- Added custom configurations liek tmux.
+- more
+- more
+
 ## Version 1.1.0 (5/10/2024) Uploaded On (5~8/10/2024)
 
 **Added some network and user commands:**
