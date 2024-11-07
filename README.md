@@ -27,19 +27,40 @@
 
 ## Version 1.4.9 (5/11/2024) Uploaded On (5~6/11/2024)
 
-**Added some system resource management commands:**
+> ### **Dont expect me:** to post anathor version untill ```june-2025```
+
+## **Added some system resource management commands:**
 | Command                                                            | Description                                                                                                      | Imp |
 |--------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|-----|
-| **@system0**                                                       | To manage system resources.                                                                                      |     |
-| `@system /pointers /help`                                          | For this help message.                                                                                           |  Y  | 
-| `@system /pointers :pointer/path`                                  | To access that pointer obj (not a string value or a path, just a obj).                                           |  N  |
+| **@sres**                                                          | To manage system resources.                                                                                      |     |
+| `@sres /pointers /help`                                            | For this help message.                                                                                           |  Y  | 
+| `@sres /pointers :pointer/path`                                    | To access that pointer obj (not a string value or a path, just a obj).                                           |  Y  |
 | **Advanced:**                                                      |                                                                                                                  |     |
-| `@system /pointers :pointer/path.function_or_arg($more_variables)` | To get that pointer obj and perform `function_or_arg($more_related_stuff)` with that obj.                        |  N  |
-| `@system /pointers /list`                                          | To list all pointers with parent path. (`root/path`)                                                             |  N  |
-| `@system /pointers /clear`                                         | To clear the pointer dict.                                                                                       |  N  |
-| `@system /pointers /save $file/path`                               | To save current pointer dict to `$file/path`, which should be a `.pointers.vin` file.                            |  N  |
-| `@system /pointers /save /nerv $file/path`                         | To save current pointer dict to `$file/path`, if `$file/path` does not exist, then just create one.              |  N  |
-| `@system /pointers /load $file/path`                               | To load pointers from `$file/path`, which should be a `.pointers.vin` file.                                      |  N  |
+| `@sres /pointers :pointer/path.function_or_arg($more_variables)`   | To get that pointer obj and perform `function_or_arg($more_related_stuff)` with that obj.                        |  Y  |
+| `@sres /pointers /list`                                            | To list all pointers with parent path. (`root/path`)                                                             |  Y  |
+| `@sres /pointers /clear`                                           | To clear the pointer dict.                                                                                       |  Y  |
+| `@sres /pointers /save $file/path`                                 | To save current pointer dict to `$file/path`, which should be a `.pointers.vin` file.                            |  Y  |
+| `@sres /pointers /save /nerv $file/path`                           | To save current pointer dict to `$file/path`, if `$file/path` does not exist, then just create one.              |  Y  |
+| `@sres /pointers /load $file/path`                                 | To load pointers from `$file/path`, which should be a `.pointers.vin` file.                                      |  Y  |
+
+## **More:**
+
+```shell
+anonymous@kernal::G:\s-cat\fri3nds\v-category-projects\Developer-Grade-Virtual-OS\Novaf-Dokr\Novaf-Dokr\bin\Debug\net8.0 % @sres /config /help
+
+System Config: (the only fun part!)
+
+ Config: are those system properties which can make your experiance more better (or worsen it), just by creating some embedded config files according to your needs.
+  xMake: is the default configuration language for `vin_env` config files. (python support will come soon, wait...)
+
+ Help:
+  @sres /config /help             -> For this help message.
+ Advanced:
+  @sres /config /files /list      -> To list all config files. (weather enabled or disabled)
+                  /files /+ $file/path -> To add a new config file. (type: `@sres /config /files /+` for manual adding, and this is more easy!)
+                  /files /- $file/path -> To delete a config file.
+  @sres /config /apply $file/path -> To apply config data present in `$file/path`.
+```
 
 > ## **Mission/Target** for version 1.4.9.x: `To make this to accept configuration files and more customization and resources management related stuff!`
 > ## **Changes** made in 1.4.9.x: `Changed the input style, added` **CTRL+C** `control, and fixed @exit command, such that when you press CTRL+C it does not exit, when you type @exit, it does.`
