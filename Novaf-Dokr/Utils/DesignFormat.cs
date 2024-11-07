@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace nova.Utils
 {
+    using Novaf_Dokr.Customization.lang.xMake;
     using System;
     using System.Collections.Generic;
 
@@ -72,7 +73,7 @@ namespace nova.Utils
         {
             if (things.Count < 2) return;
 
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = XmInterpreter.__CurrentForegroundColor; ;
 
             if (things.Count >= 2)
             {
@@ -116,7 +117,7 @@ namespace nova.Utils
             }
 
             Console.Write(thing);
-            Console.ForegroundColor = ConsoleColor.White; // Reset after printing
+            Console.ForegroundColor = XmInterpreter.__CurrentForegroundColor; // Reset after printing
         }
 
         public static void Banner()
@@ -132,7 +133,7 @@ $$ | \$$ |\$$$$$$  |  \$  /  \$$$$$$$ |$$ |
 \__|  \__| \______/    \_/    \_______|\__|
 
 ╔═══════════════════════════════╗ ╔═════════════════════════════════════════════════════════════════════════╗
-║ v-1.4.2 Beta                  ║ ║ Website: https://hmza-sfyn.github.io/ref/hmza/nas/index.html            ║ 
+║ v-1.x.x Beta                  ║ ║ Website: https://hmza-sfyn.github.io/ref/hmza/nas/index.html            ║ 
 ║ Author: hmZa-Sfyn             ║ ║ Github: https://github.com/hmZa-Sfyn                                    ║
 ╚═══════════════════════════════╝ ╚═════════════════════════════════════════════════════════════════════════╝                                                                                  
                                    

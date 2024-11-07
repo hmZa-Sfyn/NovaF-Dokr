@@ -1,5 +1,6 @@
 ﻿using nova.Command;
 using nova.Utils;
+using Novaf_Dokr.Customization.lang.xMake;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,7 +22,7 @@ namespace nova_vm.Command.env.nova_lang
                 Console.WriteLine("*** GLITCH IN THE MATRIX ***");
 
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.BackgroundColor = ConsoleColor.Black;
+                Console.BackgroundColor = XmInterpreter.__CurrentBackgroundColor;
             }
         }
         public class KeyWords

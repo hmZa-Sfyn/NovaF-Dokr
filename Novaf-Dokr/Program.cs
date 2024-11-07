@@ -12,12 +12,16 @@ using nova.Command.env;
 using System.Runtime.ExceptionServices;
 using System.Reflection.Metadata.Ecma335;
 using Novaf_Dokr.Customization.configuration;
+using Novaf_Dokr.Customization;
+using System.Diagnostics.SymbolStore;
+using Novaf_Dokr.Customization.lang.xMake;
 //using nova.Tests;
 
 namespace novaf
 {
     public class Program
     {
+        public static string __version__ = "1.4.9";
         static void Main(string[] args)
         {
             //Console.WriteLine("(c) nova Initial Developers | Fri3nds .G");
@@ -87,8 +91,16 @@ namespace novaf
 
             #region Actual Init
 
+            CommandEnv.LoadEnvironmentPointers();
+            CommandEnv.LoadEnvironmentVariables();
 
-            
+            master.conf.EnsureEnvironmentSetup();
+
+            //foreach (master.conf.ConfigurationData _cd in master._Conf_Files_List)
+            //{
+            //    Console.WriteLine(_cd.File.Path.ToString());
+            //}
+
 
             try
             {
@@ -102,13 +114,15 @@ namespace novaf
                         {
                             e.Cancel = false; // Prevent the app from closing
                             Console.WriteLine("\nTolerating CTRL+C!");
+                            Console.ForegroundColor = XmInterpreter.__CurrentForegroundColor;
+                            Console.BackgroundColor = XmInterpreter.__CurrentBackgroundColor;
                             Initnova(true);
                         };
 
                         if (!isctrlc)
                         {
                             // The rest of your code
-                            DesignFormat.TakeInput([$"{CommandEnv.CURRENT_USER_NAME}", "@", "kernal", "::", $"{CommandEnv.CurrentDirDest}", " $ "]);
+                            DesignFormat.TakeInput([$"\n{CommandEnv.CURRENT_USER_NAME}", "@", "kernal", "::", $"{CommandEnv.CurrentDirDest}", " % "]);
                             List<string> commands = UserInput.Prepare(UserInput.Input());
                             IdentifyCommand.Identify(commands);
                             List<string> parsed_commands = IdentifyCommand.ReturnThemPlease();

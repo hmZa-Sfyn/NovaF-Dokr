@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Novaf_Dokr.Customization.lang.xMake;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,16 +11,16 @@ namespace nova.Utils
     {
         public static void starerror(string msg)
         {
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("* ");
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = XmInterpreter.__CurrentForegroundColor;
             Console.Write(msg);
         }
         public static void starinfo(string msg)
         {
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.Write("* ");
-            Console.ForegroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = XmInterpreter.__CurrentForegroundColor;
             Console.Write(msg);
         }
         public class erroroutputs
@@ -31,7 +32,7 @@ namespace nova.Utils
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write(err + "\n");
 
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.ForegroundColor = XmInterpreter.__CurrentForegroundColor;
             }
             public static void err(string err, string at)
             {
@@ -42,7 +43,7 @@ namespace nova.Utils
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write(err + "\n");
 
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.ForegroundColor = XmInterpreter.__CurrentForegroundColor;
             }
             public static void errlast(string err, string at)
             {
@@ -53,7 +54,7 @@ namespace nova.Utils
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write(err + "\n");
 
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.ForegroundColor = XmInterpreter.__CurrentForegroundColor;
             }
         }
         public class warningoutputs
@@ -65,7 +66,7 @@ namespace nova.Utils
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write(err + "\n");
 
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.ForegroundColor = XmInterpreter.__CurrentForegroundColor;
             }
             public static void warn(string err, string at)
             {
@@ -76,7 +77,7 @@ namespace nova.Utils
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write(err + "\n");
 
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.ForegroundColor = XmInterpreter.__CurrentForegroundColor;
             }
             public static void warnlast(string err, string at)
             {
@@ -87,7 +88,7 @@ namespace nova.Utils
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write(err + "\n");
 
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.ForegroundColor = XmInterpreter.__CurrentForegroundColor;
             }
         }
         public static void stdout(string warning)
@@ -95,14 +96,14 @@ namespace nova.Utils
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write(warning + "\n");
 
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = XmInterpreter.__CurrentForegroundColor;
         }
         public static void stdoutfailed(string warning)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write(warning + "\n");
 
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = XmInterpreter.__CurrentForegroundColor;
         }
         public static void result(string warning)
         {
@@ -110,6 +111,8 @@ namespace nova.Utils
             Console.Write("[result] ");
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write(warning + "\n");
+
+            Console.ForegroundColor = XmInterpreter.__CurrentForegroundColor;
         }
     }
 }

@@ -20,12 +20,30 @@
 
 <img src="./image.png"></img>
 
-## Version 1.4.2 (5/11/2024) Uploaded On (5~8/10/2024)
+<br>
+<br>
 
-- Added custom themes.
-- Added custom configurations liek tmux.
-- more
-- more
+<img src="./ing2.png"></img>
+
+## Version 1.4.9 (5/11/2024) Uploaded On (5~6/11/2024)
+
+**Added some system resource management commands:**
+| Command                                                            | Description                                                                                                      | Imp |
+|--------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|-----|
+| **@system0**                                                       | To manage system resources.                                                                                      |     |
+| `@system /pointers /help`                                          | For this help message.                                                                                           |  Y  | 
+| `@system /pointers :pointer/path`                                  | To access that pointer obj (not a string value or a path, just a obj).                                           |  N  |
+| **Advanced:**                                                      |                                                                                                                  |     |
+| `@system /pointers :pointer/path.function_or_arg($more_variables)` | To get that pointer obj and perform `function_or_arg($more_related_stuff)` with that obj.                        |  N  |
+| `@system /pointers /list`                                          | To list all pointers with parent path. (`root/path`)                                                             |  N  |
+| `@system /pointers /clear`                                         | To clear the pointer dict.                                                                                       |  N  |
+| `@system /pointers /save $file/path`                               | To save current pointer dict to `$file/path`, which should be a `.pointers.vin` file.                            |  N  |
+| `@system /pointers /save /nerv $file/path`                         | To save current pointer dict to `$file/path`, if `$file/path` does not exist, then just create one.              |  N  |
+| `@system /pointers /load $file/path`                               | To load pointers from `$file/path`, which should be a `.pointers.vin` file.                                      |  N  |
+
+> ## **Mission/Target** for version 1.4.9.x: `To make this to accept configuration files and more customization and resources management related stuff!`
+> ## **Changes** made in 1.4.9.x: `Changed the input style, added` **CTRL+C** `control, and fixed @exit command, such that when you press CTRL+C it does not exit, when you type @exit, it does.`
+                                   
 
 ## Version 1.1.0 (5/10/2024) Uploaded On (5~8/10/2024)
 

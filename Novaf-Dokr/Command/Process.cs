@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.ComponentModel.Design;
 using System.Text.RegularExpressions;
 using Novaf_Dokr.Command.env.user;
+using Novaf_Dokr.Customization;
 
 namespace nova.Command
 {
@@ -108,7 +109,7 @@ namespace nova.Command
         }
         public static void SaveEnvironmentPointers()
         {
-            File.WriteAllText(EnvPointersFile, JsonSerializer.Serialize(EnvironmentVariables, new JsonSerializerOptions { WriteIndented = true }));
+            File.WriteAllText(EnvPointersFile, JsonSerializer.Serialize(EnvironmentPointers, new JsonSerializerOptions { WriteIndented = true }));
         }
         public static void LoadEnvironmentPointers()
         {
@@ -117,7 +118,7 @@ namespace nova.Command
                 if (File.Exists(EnvPointersFile))
                 {
                     string json = File.ReadAllText(EnvPointersFile);
-                    EnvironmentVariables = JsonSerializer.Deserialize<Dictionary<string, string>>(json) ?? new Dictionary<string, string>();
+                    EnvironmentPointers = JsonSerializer.Deserialize<Dictionary<string, string>>(json) ?? new Dictionary<string, string>();
                 }
             }
             catch (Exception ex)
@@ -397,14 +398,14 @@ namespace nova.Command
                 return EnvironmentVariables.TryGetValue(key, out string value) ? value : match.Value;
             });
         }
-        public static string ReplaceEnvironmentPointers(string input)
-        {
-            return Regex.Replace(input, @":(\w+)", match =>
-            {
-                string key = match.Groups[1].Value;
-                return EnvironmentPointers.TryGetValue(key, out string value) ? value : match.Value;
-            });
-        }
+        //public static string ReplaceEnvironmentPointers(string input) // We dont need this!!! //
+        //{
+        //    return Regex.Replace(input, @":(\w+)", match =>
+        //    {
+        //        string key = match.Groups[1].Value;
+        //        return EnvironmentPointers.TryGetValue(key, out string value) ? value : match.Value;
+        //    });
+        //}
         public static void CommandEnvEach(List<string> commands)
         {
             if (!commands.Any()) { return; }
@@ -646,25 +647,35 @@ namespace nova.Command
 
                         Console.WriteLine("\nNovaF Commands:");
 
-                        Console.WriteLine(" @user     - Manage users and logins");
-                        Console.WriteLine(" @fnet     - Manage nova network and fnet sessions");
+                        Console.WriteLine(" @user     -> Manage users and logins");
+                        Console.WriteLine(" @fnet     -> Manage nova network and fnet sessions");
+
+                        Console.WriteLine("\nAdvanced Commands:");
+
+                        Console.WriteLine(" @sres || @sys -> Manage some of the developer based system resources");
 
                         Console.WriteLine("\nBasic Commands:");
 
-                        Console.WriteLine(" @help     - Get this help message");
-                        Console.WriteLine(" @run      - To run a command script");
-                        Console.WriteLine(" @cls      - Clear the console");
-                        Console.WriteLine(" @exit     - Exit the application");
-                        Console.WriteLine(" @evars    - Manage environment variables ('set', 'get', 'list', 'unset')");
-                        Console.WriteLine(" @alias    - Manage command aliases ('add', 'remove', 'list')");
-                        Console.WriteLine(" @history  - View or clear command history");
-                        Console.WriteLine(" @encrypt  - Encrypt a file or directory");
-                        Console.WriteLine(" @decrypt  - Decrypt a file or directory");
-                        Console.WriteLine(" @bin      - Display file contents in binary format");
-                        Console.WriteLine(" @ibin     - Convert binary string back to file, use `--no-shell` to run the script in the shell, it may break your shell, so dont do it");
-                        Console.WriteLine(" @cd       - Change the current directory");
-                        Console.WriteLine(" @std      - Standard Shell Lib, type `@std #help` for help");
+                        Console.WriteLine(" @help     -> Get this help message");
+                        Console.WriteLine(" @run      -> To run a command script");
+                        Console.WriteLine(" @cls      -> Clear the console");
+                        Console.WriteLine(" @exit     -> Exit the application");
+                        Console.WriteLine(" @evars    -> Manage environment variables ('set', 'get', 'list', 'unset')");
+                        Console.WriteLine(" @alias    -> Manage command aliases ('add', 'remove', 'list')");
+                        Console.WriteLine(" @history  -> View or clear command history");
+                        Console.WriteLine(" @encrypt  -> Encrypt a file or directory");
+                        Console.WriteLine(" @decrypt  -> Decrypt a file or directory");
+                        Console.WriteLine(" @bin      -> Display file contents in binary format");
+                        Console.WriteLine(" @ibin     -> Convert binary string back to file, use `--no-shell` to run the script in the shell, it may break your shell, so dont do it");
+                        Console.WriteLine(" @cd       -> Change the current directory");
+                        Console.WriteLine(" @sslib    -> Standard Shell Lib, type `@sslib #help` for help. (this is not for the user, its for the x-compiler and other stuff)");
                         Console.ResetColor();
+
+                        Console.WriteLine("\nBinary Commands:");
+
+                        ProcessBinCommand(["@bin","ls","--path",EnvironmentVariables["BinPath"]]);
+
+                        Console.WriteLine();
 
                         Console.WriteLine("\nAlias Commands:");
 
@@ -679,8 +690,13 @@ namespace nova.Command
                         Console.ResetColor();
                         break;
 
-                    case "@std":
+                    case "@sslib":
                         ProcessStdCommand(parts);
+                        break;
+
+                    case "@sres":
+                    case "@sys":
+                        system_command.ProcessSystemCommand(parts);
                         break;
 
                     case "@user":                           ////// NEW COMMAND //////
@@ -700,29 +716,39 @@ namespace nova.Command
                         break;
 
                     case "@run":
-                        if (!File.Exists(parts[1]))
+                        if (parts.Length > 1)
                         {
-                            errs.CacheClean();
-                            errs.New($"Error: `{parts[1]}` file not present.");
-                            errs.ListThem();
-                            errs.CacheClean();
+                            if (!File.Exists(parts[1]))
+                            {
+                                errs.CacheClean();
+                                errs.New($"Error: `{parts[1]}` file not present.");
+                                errs.ListThem();
+                                errs.CacheClean();
+                            }
+                            else
+                            {
+                                {
+                                    IdentifyCommand.CacheClean();
+
+                                    List<string> commandsz = UserInput.Prepare(File.ReadAllText(parts[1]));
+
+                                    IdentifyCommand.Identify(commandsz);
+                                    List<string> parsed_commandsz = IdentifyCommand.ReturnThemPlease();
+
+                                    //foreach (string command in parsed_commands) { Console.WriteLine(command); }
+
+                                    PleaseCommandEnv.TheseCommands(parsed_commandsz);
+
+                                    IdentifyCommand.CacheClean();
+                                }
+                            }
                         }
                         else
                         {
-                            {
-                                IdentifyCommand.CacheClean();
-
-                                List<string> commandsz = UserInput.Prepare(File.ReadAllText(parts[1]));
-
-                                IdentifyCommand.Identify(commandsz);
-                                List<string> parsed_commandsz = IdentifyCommand.ReturnThemPlease();
-
-                                //foreach (string command in parsed_commands) { Console.WriteLine(command); }
-
-                                PleaseCommandEnv.TheseCommands(parsed_commandsz);
-
-                                IdentifyCommand.CacheClean();
-                            }
+                            errs.CacheClean();
+                            errs.New($"Error: Usage: `@run $filepath.sh`");
+                            errs.ListThem();
+                            errs.CacheClean();
                         }
                         break;
 
@@ -839,7 +865,7 @@ namespace nova.Command
                 // Base path to the nova std directory
                 string basePath = $@"C:\Users\{currentUser}\vin_env\third_party\nova\std\";
 
-                // Extract the command after "@std"
+                // Extract the command after "@sslib"
                 string stdCommand = parts[1];
                 string[] commandParts = stdCommand.Split('.'); // Split on dot to detect category, class, etc.
 

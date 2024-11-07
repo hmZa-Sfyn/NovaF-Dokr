@@ -15,12 +15,12 @@ namespace nova_vm.Command.env.nova_lang
             public static void Show()
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.BackgroundColor = ConsoleColor.Red;
+                Console. = ConsoleColor.Red;
 
                 Console.WriteLine("*** GLITCH IN THE MATRIX ***");
 
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.BackgroundColor = ConsoleColor.Black;
+                Console. = ConsoleColor.;
             }
         }
         public class KeyWords
